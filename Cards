@@ -1,0 +1,26 @@
+1.  F: x = x + 1
+    D: Tutor
+    
+2.  F: x = x * 2 - 1
+    D: Scry 2
+    
+3.  F: if(x % 3 == 2) x = x + 15
+    D: Scry 3
+    
+4.  F: x = x * y, choose y (2 - 5)
+    D: Draw 1
+
+5.  F: x = 100 / x
+    D: Tutor
+    
+6.  F: x = x / 2
+    D: Scry 3
+    
+7.  F: x = x % 12
+    D: Scry 2
+
+8.  F: x = x - y, choose y (1 - 11)
+    D: Draw 1
+    
+Functions: +, -, x, /, %    (1 to 2 of these)
+Values: if(+, -) {1-50}  if(x, /, %) {2 - 13}
