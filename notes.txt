@@ -1,0 +1,21 @@
+ctrls 	- battlefield - drawCard(), playCard(), getGame()
+	- navbar - findGame(), logout()
+	- queue - timedGame(), asynchGame()
+
+
+facts	- gamefactory - playCard(), updateStatus()
+	- cardfactory - getDeck(), getCard()
+	- authfactory - getUser(), setUser(), logIn(), logInGoogle()
+
+
+parts	- navbar
+	- battlefield
+	- splash
+	- queue
+
+
+
+
+Data	- Queue - Uid :if exists when timedGame -create game and delete self 
+	- Users - 
+	- Games - players: on uid & goal, cardsPlayed, whoseTurn: uid, x: value, score: uid and score, time: uid and time 
