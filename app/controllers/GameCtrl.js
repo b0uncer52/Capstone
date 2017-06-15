@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('GameCtrl', function($scope, $location, $interval, $watch) {
+app.controller('GameCtrl', function($scope, $location, $interval) {
 
     $scope.yourTurn = false;
 

@@ -19,3 +19,6 @@ parts	- navbar
 Data	- Queue - Uid :if exists when timedGame -create game and delete self 
 	- Users - 
 	- Games - players: on uid & goal, cardsPlayed, whoseTurn: uid, x: value, score: uid and score, time: uid and time 
+	- Cards - card list
+
+
