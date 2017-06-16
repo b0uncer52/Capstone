@@ -1,29 +1,23 @@
 'use strict';
 
-app.factory("GameFactory", function($q, $http, FBCreds, moment) {
+app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
 
     let fbGameDb = firebase.database().ref('games');
 
     const joinQueue = joiner => {
         return $q((resolve, reject) => {
             let uid = JSON.stringify(joiner);
-            $http.put(`${FBCreds.databaseURL}/queue/${uid}.json`, uid)
-            .then( (response) => {
-                resolve(response);
-            }).catch( (error) => {
-                reject(error);
-            });
+            $http.put(`${FBCreds.databaseURL}/queue/${joiner}.json`, uid)
+            .then( resolve )
+            .catch( reject );
         });
     };
 
     const getStats = id => {
         return $q((resolve, reject) => {
             $http.get(`${FBCreds.databaseURL}/users/${id}.json`)
-            .then( (response) => {
-                resolve(response);
-            }).catch( (error) => {
-                reject(error);
-            });
+            .then( resolve )
+            .catch( reject );
         });
     };
 
@@ -38,14 +32,21 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment) {
         return [number1, number2];
     };
 
+    const generateHands = () => {
+        let cards = [];
+        for(let i = 0; i < 6; i++) {
+            cards.push(Math.floor(Math.random() * 15));
+        }
+        console.log(cards, "cards");
+        return(cards);
+    };
+
     const removeFromQueue = player => {
+        console.log(player, "hi hannah");
         return $q((resolve, reject) => {
             $http.delete(`${FBCreds.databaseURL}/queue/${player}.json`)
-            .then( (response) => {
-                resolve(response);
-            }).catch( (error) => {
-                reject(error);
-            });
+            .then( resolve )
+            .catch( reject );
         });
     };
 
@@ -67,7 +68,18 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment) {
         let x = Math.floor(Math.random() * 8) + 2;
         let createdTime = moment();
         let index = (new Date()).valueOf();
-        let game = {times, whoseTurn, x, score, createdTime, index};
+        let cards = generateHands();
+        let hands = {};
+        hands[player1] = [];
+        hands[player2] = [];
+        for(let i = 0; i < cards.length; i++) {
+            if(i < 3) {
+                hands[player1].push(cards[i]);
+            } else {
+                hands[player2].push(cards[i]);
+            }
+        }
+        let game = {times, whoseTurn, x, score, createdTime, index, hands};
         game[player1] = numbers[0];
         game[player2] = numbers[1];
         console.log(game);
@@ -79,22 +91,25 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment) {
                 removeFromQueue(player1);
                 removeFromQueue(player2);
                 resolve(response);
-            }).catch( (error) => {
-                reject(error);
-            });
+            }).catch( reject );
         });
     };
 
     const getQueue = () => {
         return $q((resolve, reject) => {
             $http.get(`${FBCreds.databaseURL}/queue.json`)
-            .then( (response) => {
-                resolve(response);
-            }).catch( (error) => {
-                reject(error);
-            });
+            .then( resolve )
+            .catch( reject );
         });
     };
 
-    return{joinQueue, getStats, getQueue, createGame, fbGameDb, removeFromQueue};
+    const getGame = gameId => {
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/games/${gameId}.json`)
+            .then( resolve )
+            .catch( reject );
+        });
+    };
+
+    return{joinQueue, getStats, getQueue, createGame, fbGameDb, removeFromQueue, getGame};
 }); 

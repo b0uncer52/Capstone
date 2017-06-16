@@ -25,18 +25,19 @@ app.controller('QueueCtrl', function($scope, $location, $window, GameFactory, Au
     };
 
     $window.onbeforeunload =  $scope.onExit;
+    $window.onclose = $scope.onExit;
     
-    // $scope.$on('$locationChangeSuccess', (event, next, current) => {
-    //     console.log(event, next, current);
-    //     if (current.match("\/yourCurrentRoute")) {
-    //         var answer = true;
-    //         if (!answer) {
-    //             event.preventDefault();
-    //         }else{
-    //             GameFactory.removeFromQueue(AuthFactory.getUser());
-    //         }
-    //     }
-    // });
+    $scope.$on('$locationChangeSuccess', (event, next, current) => {
+        console.log(event, next, current);
+        // if (current.match("\/yourCurrentRoute")) {
+        //     var answer = true;
+        //     if (!answer) {
+        //         event.preventDefault();
+        //     }else{
+                GameFactory.removeFromQueue(AuthFactory.getUser());
+            // }
+        // }
+    });
 
     $firebaseArray(GameFactory.fbGameDb).$loaded().then(() => {  //looks for new game to be created once queue fills
 		GameFactory.fbGameDb.on('child_added', (x) => {
