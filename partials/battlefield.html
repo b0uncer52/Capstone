@@ -1,5 +1,7 @@
 <div class="timer">Hiya</div>
 
+<button ng-click="myTurn()">my turn</button>
+
 <button ng-click="playCard(selectedCard)" ng-disabled="!yourTurn || !selected">Play Card</button><div>{{selectedCard}}</div>
 
 <div id="scores">Your Score: {{game.score[uid]}} Their Score: {{game.score[opp]}}</div>
@@ -11,20 +13,21 @@
 <div id="goals">Your Goal: {{game[uid]}} Their Goal: {{game[opp]}} </div>
 Hand:
 <div id="hand" class="btn-group" role="group"> 
-<div ng-class="{selected: selectedCard == card, card: true}" ng-repeat="card in yourHand" ng-click="selectCard(card)">
-    X = X <span ng-if="card.r != 128"> % {{card.r}}</span>
-    <span ng-if="card.m != 1"> x {{card.m}}</span>
-    <span ng-if="card.d != 1"> ÷ {{card.d}}</span>
-    <span ng-if="card.a != 0"> + {{card.a}}</span>
-    <span ng-if="card.s != 0"> - {{card.s}}</span>
-</div>
-</div>
-
-<div ng-class="{selected: selectedCard == card, card: true}" class="playedCards" ng-repeat="card in game.played" ng-click="highlightCard(card)">
-    X = X <span ng-if="card.r != 128"> % {{card.r}}</span>
-    <span ng-if="card.m != 1"> x {{card.m}}</span>
-    <span ng-if="card.d != 1"> ÷ {{card.d}}</span>
-    <span ng-if="card.a != 0"> + {{card.a}}</span>
-    <span ng-if="card.s != 0"> - {{card.s}}</span>
+    <div ng-class="{selected: selectedCard == card, card: true}" ng-repeat="card in yourHand track by $index" ng-click="selectCard(card)">
+        X = X <span ng-if="card.r != 32"> % {{card.r}}</span>
+        <span ng-if="card.m != 1"> x {{card.m}}</span>
+        <span ng-if="card.d != 1"> ÷ {{card.d}}</span>
+        <span ng-if="card.a != 0"> + {{card.a}}</span>
+        <span ng-if="card.s != 0"> - {{card.s}}</span>
+    </div>
 </div>
 
+<div id="played" class="btn-group" role="group">
+    <div ng-class="{selected: selectedCard == card, card: true}" class="playedCards" ng-repeat="card in game.playedCards track by $index" ng-click="highlightCard(card)">
+        X = X <span ng-if="card.r != 32"> % {{card.r}}</span>
+        <span ng-if="card.m != 1"> x {{card.m}}</span>
+        <span ng-if="card.d != 1"> ÷ {{card.d}}</span>
+        <span ng-if="card.a != 0"> + {{card.a}}</span>
+        <span ng-if="card.s != 0"> - {{card.s}}</span>
+    </div>
+</div>

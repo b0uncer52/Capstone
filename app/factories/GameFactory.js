@@ -13,6 +13,15 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
         });
     };
 
+    const removeFromQueue = player => {
+        console.log(player, "hi hannah");
+        return $q((resolve, reject) => {
+            $http.delete(`${FBCreds.databaseURL}/queue/${player}.json`)
+            .then( resolve )
+            .catch( reject );
+        });
+    };
+
     const getStats = id => {
         return $q((resolve, reject) => {
             $http.get(`${FBCreds.databaseURL}/users/${id}.json`)
@@ -24,8 +33,8 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
     const generateGoals = () => {
         let number1 = 0, number2 = 0;
         do {
-            number1 = Math.floor(Math.random() * 115) + 13;
-            number2 = Math.floor(Math.random() * 115) + 13;
+            number1 = Math.floor(Math.random() * 18) + 13;
+            number2 = Math.floor(Math.random() * 18) + 13;
         }
         while (number1 === number2);
 
@@ -35,19 +44,10 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
     const generateHands = () => {
         let cards = [];
         for(let i = 0; i < 6; i++) {
-            cards.push(Math.floor(Math.random() * 15));
+            cards.push(Math.floor(Math.random() * CardFactory.deckSize));
         }
         console.log(cards, "cards");
         return(cards);
-    };
-
-    const removeFromQueue = player => {
-        console.log(player, "hi hannah");
-        return $q((resolve, reject) => {
-            $http.delete(`${FBCreds.databaseURL}/queue/${player}.json`)
-            .then( resolve )
-            .catch( reject );
-        });
     };
 
     const createGame = (player1, player2) => {
@@ -111,5 +111,14 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
         });
     };
 
-    return{joinQueue, getStats, getQueue, createGame, fbGameDb, removeFromQueue, getGame};
+    const updateGame = obj => {
+        let gameObj = JSON.stringify(obj);
+        return $q((resolve, reject) => {
+            $http.put(`${FBCreds.databaseURL}/games/${obj.index}.json`, gameObj)
+            .then( resolve )
+            .catch( reject );
+        });
+    };
+
+    return{joinQueue, getStats, getQueue, createGame, fbGameDb, removeFromQueue, getGame, updateGame};
 }); 
