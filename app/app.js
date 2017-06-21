@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module('GameApp', ['ngRoute', 'firebase', 'angularMoment']);
+const app = angular.module('GameApp', ['ngRoute', 'firebase']);
 
 let isAuth = (AuthFactory) => new Promise ( (resolve,reject) => {
         AuthFactory.isAuthenticated()

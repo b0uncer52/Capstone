@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('AuthCtrl', function ($scope, $window, AuthFactory, $location) {
+app.controller('AuthCtrl', function ($scope, $window, AuthFactory, GameFactory, $location) {
 
     $scope.account = {
         email: "",
@@ -19,6 +19,7 @@ app.controller('AuthCtrl', function ($scope, $window, AuthFactory, $location) {
     $scope.logIn = (loginStuff) => {
         AuthFactory.logInUser(loginStuff)
         .then( (didLogin) => {
+            GameFactory.getProfile(didLogin);
             $location.url("/menu");
             $scope.$apply();
         });
@@ -28,6 +29,7 @@ app.controller('AuthCtrl', function ($scope, $window, AuthFactory, $location) {
         AuthFactory.authWithProvider()
         .then(function (result) {
             var user = result.user.uid;
+            GameFactory.getProfile(result.user);
             $location.url("/menu");
             $scope.$apply();
         }).catch(function (error) {
