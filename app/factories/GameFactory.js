@@ -1,8 +1,58 @@
 'use strict';
 
-app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
+app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
 
     let fbGameDb = firebase.database().ref('games');
+    let profile = {};
+    let opponent = {};
+
+    const editProfile = (uid, editedProfile) => {
+        let newProfile = JSON.stringify(editedProfile);
+        $http.patch(`${FBCreds.databaseURL}/profiles/${uid}.json`, newProfile)
+        .then( response => {
+            console.log(response, "editProfile");
+        });
+    };
+
+    const getOpponent = id => {
+        $http.get(`${FBCreds.databaseURL}/profiles/${id}.json`)
+        .then( response => {
+            opponent = response.data;
+        });
+    };
+
+    const getProfile = data => {
+        $http.get(`${FBCreds.databaseURL}/profiles/${data.uid}.json`)
+        .then( response => {
+            if(response.data === null) {
+                newProfile(data);
+            } else {
+                profile = {
+                    uid: response.data.uid,
+                    photo: response.data.photoURL,
+                    email: response.data.email,
+                    name: response.data.displayName,
+                    rating: response.data.rating,
+                    wins: response.data.wins,
+                    losses: response.data.losses
+                };
+            }
+        });
+    };
+
+    const newProfile = data => {
+        profile = {
+            uid: data.uid,
+            photo: data.photoURL,
+            email: data.email,
+            name: data.displayName,
+            rating: 1000,
+            wins: 0,
+            losses: 0
+        };
+        let obj = JSON.stringify(profile);
+        $http.put(`${FBCreds.databaseURL}/profiles/${data.uid}.json`, obj);
+    };
 
     const joinQueue = joiner => {
         return $q((resolve, reject) => {
@@ -33,8 +83,8 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
     const generateGoals = () => {
         let number1 = 0, number2 = 0;
         do {
-            number1 = Math.floor(Math.random() * 18) + 13;
-            number2 = Math.floor(Math.random() * 18) + 13;
+            number1 = Math.floor(Math.random() * 8) + 11;
+            number2 = Math.floor(Math.random() * 8) + 11;
         }
         while (number1 === number2);
 
@@ -54,8 +104,8 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
         let numbers = generateGoals();
         console.log(player1, player2);
         let times = {};
-        times[player1] = 600;
-        times[player2] = 600;
+        times[player1] = 300;
+        times[player2] = 300;
         let score = {};
         score[player1] = 0;
         score[player2] = 0;
@@ -66,7 +116,6 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
             whoseTurn = player2.replace(/['"]+/g, '');
         }
         let x = Math.floor(Math.random() * 8) + 2;
-        let createdTime = moment();
         let index = (new Date()).valueOf();
         let cards = generateHands();
         let hands = {};
@@ -79,7 +128,7 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
                 hands[player2].push(cards[i]);
             }
         }
-        let game = {times, whoseTurn, x, score, createdTime, index, hands};
+        let game = {times, whoseTurn, x, score, index, hands};
         game[player1] = numbers[0];
         game[player2] = numbers[1];
         console.log(game);
@@ -120,5 +169,24 @@ app.factory("GameFactory", function($q, $http, FBCreds, moment, CardFactory) {
         });
     };
 
-    return{joinQueue, getStats, getQueue, createGame, fbGameDb, removeFromQueue, getGame, updateGame};
+    const updateRecords = () => {
+        console.log(profile, "myprof", opponent, "oppp");
+        let caseU = Math.pow(10, profile.rating/400);
+        let caseO = Math.pow(10, opponent.rating/400);
+        console.log(caseU, "u", caseO, "o");
+        let total = caseU + caseO;
+        let k = Math.floor(32 * (1 - caseU / total));
+        console.log(k, "k", profile.rating, "rating", opponent.rating, "opp rating");
+        profile.rating += k;
+        profile.wins++;
+        opponent.rating -= k;
+        opponent.losses++;
+        console.log(opponent, "opp", profile, "me");
+        editProfile(profile.uid, profile);
+        editProfile(opponent.uid, opponent);
+    };
+
+    return{joinQueue, getStats, getQueue, createGame, fbGameDb, 
+    removeFromQueue, getGame, updateGame, getProfile, editProfile,
+    profile, opponent, getOpponent, updateRecords};
 }); 

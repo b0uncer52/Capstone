@@ -9,6 +9,7 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
     $scope.selected = false;
     $scope.yourHand = [];
     $scope.selectedCard = null;
+    let timer;
    
 
     let addToHand = card => {
@@ -30,25 +31,42 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         $scope.selectedCard = card;
     };
 
-    $scope.myTurn = () => {
-        $scope.yourTurn = true;  // destroy this later
-    };
-
     $scope.selectCard = (card) => {
         $scope.selected = true;
         $scope.selectedCard = card;
     };
 
+    let timeResult = times => {
+        if(times[$scope.opp] < 1 ) {
+            $scope.game.winner = uid;
+            GameFactory.updateGame($scope.game);
+        }
+    };
+
+    let scoreResult = score => {
+        if(score[uid] > score[$scope.opp]) {
+            $scope.game.winner = uid;
+            GameFactory.updateGame($scope.game);
+        }
+    };
+
+    let clockTick = () => {
+        let id = $scope.game.whoseTurn;
+        $scope.game.times[id]--;
+        if($scope.game.times[id] <= 0) {
+            GameFactory.updateGame($scope.game);
+        }
+    };   
+
     let gameState = data => {
-        if(data.whoseTurn == uid) {
-            $scope.yourTurn = true;
-        } else { $scope.yourTurn = false;}
+        $interval.cancel(timer);
+        timer = $interval(clockTick, 1000); 
         console.log("data", data);
         if(data.times[$scope.opp] <= 0 || data.times[uid] <= 0) {
-            console.log("outta time");
+            timeResult(data.times);
         }
-        if(data.playedCards && data.playedCards.length >= 20) {
-            console.log("game!");
+        if(data.playedCards && data.playedCards.length >= 10) {
+            scoreResult(data.score);
         }
         $scope.yourHand = [];
         for(let d in data.hands[uid]) {
@@ -60,29 +78,26 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         let x = $scope.game.x;
         let cards = $scope.game.playedCards;
         for(let i = 0; i < cards.length; i++) {
-            console.log(x, "start");
-            x %= cards[i].r;
-            console.log(x, "remainder");
             x *= cards[i].m;
-            console.log(x, "multiply");
-            x = Math.round(x / cards[i].d);
-            console.log(x, "divide");
             x += Number(cards[i].a);
-            console.log(x, "add");
             x -= Number(cards[i].s);
-            console.log(x, "sub");
             x %= CardFactory.max;
             if(x < 0) {x = 0;}
-            if(x == $scope.game.opp) {
-                $scope.score.opp += 1;
-            } else if(x == $scope.game.uid) {
-                $scope.score.uid += 1;
+            if(x == $scope.game[$scope.opp]) {
+                console.log(x, $scope.game[$scope.opp]);
+                $scope.game.score[$scope.opp] += 1;
+            } else if(x == $scope.game[uid]) {
+                console.log(x, $scope.game[uid]);
+                $scope.game.score[uid] += 1;
             }
+            cards[i].x = x;
         }
-        if($scope.game.x == $scope.game.opp) {
-            $scope.score.opp += 2;
-        } else if($scope.game.x == $scope.game.uid) {
-            $scope.score.uid += 2;
+        if(x == $scope.game[$scope.opp]) {
+            console.log(x, $scope.game[$scope.opp]);
+            $scope.game.score[$scope.opp] += 2;
+        } else if(x == $scope.game[uid]) {
+            console.log(x, $scope.game[uid]);
+            $scope.game.score[uid] += 2;
         }
         $scope.game.x = x;
     };
@@ -95,7 +110,7 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         }
         $scope.game.playedCards.push(card);
         runTheNumbers();
-        // $scope.game.whoseTurn = $scope.opp;
+        $scope.game.whoseTurn = $scope.opp;
         removeFromHand(card);
         let newCard = Math.floor(Math.random() * CardFactory.deckSize);
         $scope.game.hands[uid].push(newCard);
@@ -109,21 +124,26 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         for(let people in $scope.game.score) {
             if(people !== uid) { $scope.opp = people;}
         }
+        GameFactory.getProfile({"uid": uid});
+        GameFactory.getOpponent($scope.opp);
         gameState($scope.game);
         console.log($scope.game);
-    });
-    
-    let clockTick = () => {
-        console.log("hi");
-    };    
-   // $interval(clockTick, 1000);
+    }); 
 
     let route = $routeParams.gameId;
 
     $firebaseArray(firebase.database().ref(`games/${route}`)).$loaded().then(() => {  //looks for new game to be created once queue fills
-		firebase.database().ref(`games`).on('child_changed', (x) => {
+		firebase.database().ref(`games/${route}`).on('child_changed', x => {
 	 		$scope.game = x.val();
-            gameState($scope.game);
+            if(x.val().winner) {
+                $interval.cancel(timer);
+                if($scope.game.winner == uid) {
+                    console.log("you won!");
+                    GameFactory.updateRecords();
+                }else {
+                    console.log("you lost!");
+                }
+            } else { gameState($scope.game);}
             console.log($scope.game);
 		});
 	});

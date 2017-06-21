@@ -2,8 +2,8 @@
 
 app.factory("CardFactory", function($q, $http, FBCreds) {
 
-    let max = 32;
-    let deckSize = 15;
+    let max = 20;
+    let deckSize = 10;
 
     const getCard = cardId => {
         return $q((resolve, reject) => {
