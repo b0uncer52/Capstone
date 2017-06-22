@@ -24,6 +24,39 @@ app.controller('QueueCtrl', function($scope, $interval, $location, $window, Game
         GameFactory.removeFromQueue(AuthFactory.getUser());
     };
 
+    $scope.waiting = "Waiting for opponent";
+
+    let j = 1;
+    $scope.picture1 = j;
+    $scope.picture2 = j;
+
+    let fadeInPic = () => {
+        $scope.picture1 = j;
+        $('#frontimg').fadeIn(2000);
+    };
+
+    let rotateBackground = () => {
+        $('#frontimg').fadeOut(0);
+        $scope.picture2 = j;
+        j++;
+        if(j > 7) {j = 1;}
+        let t = $interval(fadeInPic, 1000, 1);
+    };
+
+    let i = 0;
+    let changeText = () => {
+        if(i == 3) { 
+            i = 0;
+            $scope.waiting = "Waiting for opponent";
+        } else {
+            i++;
+            $scope.waiting += ".";
+        }
+    };
+
+    let textCycler = $interval(changeText, 1000);
+    let slider = $interval(rotateBackground, 3000);
+
     $window.onbeforeunload =  $scope.onExit;
     $window.onclose = $scope.onExit;
     

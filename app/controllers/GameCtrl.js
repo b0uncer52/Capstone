@@ -59,6 +59,20 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
     };   
 
     let gameState = data => {
+        $scope.yourHand = [];
+        for(let d in data.hands[uid]) {
+            drawCards(data.hands[uid][d]);
+        }
+        if(data.winner) {
+            $interval.cancel(timer);
+            if($scope.game.winner == uid) {
+                console.log("you won!");
+                GameFactory.updateRecords();
+            }else {
+                console.log("you lost!");
+            }
+            return;
+        }
         $interval.cancel(timer);
         timer = $interval(clockTick, 1000); 
         console.log("data", data);
@@ -67,10 +81,6 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         }
         if(data.playedCards && data.playedCards.length >= 10) {
             scoreResult(data.score);
-        }
-        $scope.yourHand = [];
-        for(let d in data.hands[uid]) {
-            drawCards(data.hands[uid][d]);
         }
     };
 
@@ -133,18 +143,10 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
     let route = $routeParams.gameId;
 
     $firebaseArray(firebase.database().ref(`games/${route}`)).$loaded().then(() => {  //looks for new game to be created once queue fills
-		firebase.database().ref(`games/${route}`).on('child_changed', x => {
+		firebase.database().ref(`games/`).on('child_changed', x => {
 	 		$scope.game = x.val();
-            if(x.val().winner) {
-                $interval.cancel(timer);
-                if($scope.game.winner == uid) {
-                    console.log("you won!");
-                    GameFactory.updateRecords();
-                }else {
-                    console.log("you lost!");
-                }
-            } else { gameState($scope.game);}
-            console.log($scope.game);
+             console.log(x.val(), "x");
+            gameState($scope.game);
 		});
 	});
 });
