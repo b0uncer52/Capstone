@@ -1,3 +1,32 @@
-<a class="btn btn-info" ng-href="#!/menu">Back</a>
+<div class="pageWrap">
+        <div id="aboutPage"><div class="button back"><a class="btn btn-info" ng-href="#!/menu">Back</a></div>
+                <h2>About the Game</h2>
+                <article>
+                        <h4>Objective:</h4> 
+                        Score points by matching "X" to your goal number.  Avoid having "X" equal your opponents goal number.  Remember you have a limited time to complete your turns, so play quickly.
+                </article>
 
-About
+                <article>
+                        <h4>Rules:</h4> 
+                        Each player will start with 3 random cards.  Each card has a function to perform on "X".  When a card is played it is added to the end of the "Played Cards" list, then each card's function is performed on "X" in that order.  If, between card functions, "X" is equal to a player's goal, they score a point.  If "X" is equal at the end of all the cards' functions, they get 3 points.  Players take turns playing cards, starting with a randomly determined player.  Each player gets 5 turns and has a total of 5 minutes to make their plays. 
+                </article>
+
+                <article>
+                        <h4>Step by step play:</h4> 
+                        <ol>
+                                <li>After you are matched with an opponent, who plays first is randomly detereminted.  Player goals, and starting value of "X" are also randomly determined. </li>
+                                <li>The active player's timer will start ticking down.  That player will choose of of three cards in their hand to play.  The played card will be added to the field, and it's function performed to change the value of "X". They will draw a new random card. </li>
+                                <li>If "X" becomes equal to any player's goal, they will score points. </li>
+                                <li>Priority will now pass to the other player, and their timer will start, while the other stops.   </li>
+                                <li>Active player will now choose a card to play, and it will be added to the field.  Starting with the first card played, each function will be performed on "X". </li>
+                                <li>Points are scored, 1 point for touching a goal in between cards, 3 points for stopping on a goal after all cards' functions. </li>
+                                <li>Repeat steps 4-7, until each player plays 5 cards.  </li>
+                                <li>If a player runs out of time, they are disqualified, and thereby lose. </li>
+                        </ol>
+                </article>
+                <article id="cardLib">
+                        <h4>Card Library</h4>
+                        <div class="card" ng-repeat="card in cards" ng-style="{'background-image':'url(/images/'+ card.name +'1.png)'}"></div>
+                </article>
+        </div>
+</div>

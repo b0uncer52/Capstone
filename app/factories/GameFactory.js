@@ -6,9 +6,9 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
     let profile = {};
     let opponent = {};
 
-    const editProfile = (uid, editedProfile) => {
+    const editProfile = (editedProfile) => {
         let newProfile = JSON.stringify(editedProfile);
-        $http.patch(`${FBCreds.databaseURL}/profiles/${uid}.json`, newProfile)
+        $http.patch(`${FBCreds.databaseURL}/profiles/${editedProfile.uid}.json`, newProfile)
         .then( response => {
             console.log(response, "editProfile");
         });
@@ -64,7 +64,6 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
     };
 
     const removeFromQueue = player => {
-        console.log(player, "hi hannah");
         return $q((resolve, reject) => {
             $http.delete(`${FBCreds.databaseURL}/queue/${player}.json`)
             .then( resolve )
@@ -74,7 +73,7 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
 
     const getStats = id => {
         return $q((resolve, reject) => {
-            $http.get(`${FBCreds.databaseURL}/users/${id}.json`)
+            $http.get(`${FBCreds.databaseURL}/profiles/${id}.json`)
             .then( resolve )
             .catch( reject );
         });
@@ -96,13 +95,11 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
         for(let i = 0; i < 6; i++) {
             cards.push(Math.floor(Math.random() * CardFactory.deckSize));
         }
-        console.log(cards, "cards");
         return(cards);
     };
 
     const createGame = (player1, player2) => {
         let numbers = generateGoals();
-        console.log(player1, player2);
         let times = {};
         times[player1] = 300;
         times[player2] = 300;
@@ -131,7 +128,6 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
         let game = {times, whoseTurn, x, score, index, hands};
         game[player1] = numbers[0];
         game[player2] = numbers[1];
-        console.log(game);
 
         return $q((resolve, reject) => {
             let newGame = JSON.stringify(game);
@@ -170,20 +166,16 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
     };
 
     const updateRecords = () => {
-        console.log(profile, "myprof", opponent, "oppp");
         let caseU = Math.pow(10, profile.rating/400);
         let caseO = Math.pow(10, opponent.rating/400);
-        console.log(caseU, "u", caseO, "o");
         let total = caseU + caseO;
         let k = Math.floor(32 * (1 - caseU / total));
-        console.log(k, "k", profile.rating, "rating", opponent.rating, "opp rating");
         profile.rating += k;
         profile.wins++;
         opponent.rating -= k;
         opponent.losses++;
-        console.log(opponent, "opp", profile, "me");
-        editProfile(profile.uid, profile);
-        editProfile(opponent.uid, opponent);
+        editProfile(profile);
+        editProfile(opponent);
     };
 
     return{joinQueue, getStats, getQueue, createGame, fbGameDb, 
