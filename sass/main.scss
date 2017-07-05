@@ -58,7 +58,6 @@ html, body, .wrapper {
     color: red;
     font-weight: bold;
     font-size: 90px;
-    visibility: hidden;
 }
 .pageWrap {
     position: fixed;
@@ -185,6 +184,17 @@ html, body, .wrapper {
         height: 100%;
         width: 70%;
         float: left;
+        padding: .5%;
+        #highlighted {
+            position: absolute;
+            top: calc(50% - 100px);
+            right: 30%;
+        }
+        #xVal {
+            text-align: center;
+            padding: 1% 0;
+            font-size: 150%;
+        }
     }
     #sidebar {
         position: absolute;
@@ -200,14 +210,21 @@ html, body, .wrapper {
         border-top: none;
         border-right: none;
         border-bottom: none;
-        img {
-            border-radius: 50%;
-            width: 15vw;
-            height: 15vw;
-        }
         .player {
             position: absolute;
             right: 1%;
+            width: 17vw;
+            max-width: 150px;
+            color: black;
+            font-size: 120%;
+            text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; 
+            img {
+                border-radius: 50%;
+                width: 17vw;
+                height: 17vw;
+                max-height: 150px;
+                max-width: 150px;
+            }
         }
         #opponent {
             top: 1%;
@@ -235,6 +252,9 @@ html, body, .wrapper {
         #battlefield {
             height: 70%;
             width: 100%;
+            #highlighted {
+                right: 1%;
+            }
         }
         #sidebar {
             top: 70%;
@@ -245,10 +265,23 @@ html, body, .wrapper {
             border-left: none;
             border-right: none;
             border-bottom: none;
+            .player {
+                width: 25vw;
+                img {
+                    height: 19vw;
+                    width: 19vw;
+                }
+            }
+            #opponent {
+                right: 1%;
+            }
+            #you {
+                left: 1%;
+            }
         }
         #times {
-            top: 0%;
-            right: 0%;
+            top: calc(50% - 40px);
+            right: calc(50% - 50px);
             width: 100px;
             height: 80px;
             font-size: 2em;
@@ -265,6 +298,13 @@ html, body, .wrapper {
             width: 150px;
         }
     }
+    #yourTurn {
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        text-align: center;
+    }
     #gameEnd {
         position: absolute;
         top: 0;
@@ -273,9 +313,16 @@ html, body, .wrapper {
         height: 100%;
         display: block;
         font-size: 18vw;
-        color: red;
         text-align: center;
         background-color: rgba(255, 255, 255, .6);
+
+        a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: red;
+        }
 
         div {
             position: relative;
