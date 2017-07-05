@@ -1,0 +1,24 @@
+<div class="pageWrap">
+  <div id="loginPage">
+    <article>
+      <section>
+      <h4>Login</h4>
+      <div>
+        Email: <input type="email" placeholder="Email address" ng-model="auth.email" autofocus="true">
+      </div>
+      <div>
+        Password: <input type="password" placeholder="Password" ng-model="auth.password">
+      </div>
+      <div>
+        <button ng-click="logIn(auth)" class="btn btn-info">Login</button>
+        <button ng-click="register(auth)" class="btn btn-default">Register</button>
+      </div>
+       <h4>Login with Google
+    <button ng-click="loginGoogle()" class="btn btn-info">Sign In</button>
+   
+    </section>
+    </h4>
+    </article>
+  </div>
+</div>
+

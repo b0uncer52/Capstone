@@ -1,0 +1,26 @@
+<div class="pageWrap profile"><div class="button back"><a ng-href="#!/menu">Back</a></div>
+<article style="text-align: center">
+    <div class="form-group">
+    <label>Battle Name:</label>
+    <input type="text" class="form-control" ng-model="stats.name"></input>
+</div>
+<div class="form-group">
+    <label>E-Mail:</label>
+    <input type="text" class="form-control" ng-model="stats.email"></input>
+</div>
+<div class="form-group">
+    <label>Photo:</label>
+    <input type="text" class="form-control" ng-model="stats.photo"></input>
+</div>
+
+<img class="userPhoto" src="{{stats.photo}}">
+
+<div class="text-center">
+    <button type="button" ng-click="editProfile()" class="btn btn-default btn-primary">Save Changes</button>
+</div>
+
+Wins: {{stats.wins}}
+Losses: {{stats.losses}}
+Rating: {{stats.rating}}
+</article>
+</div>
