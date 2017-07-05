@@ -1,0 +1,274 @@
+html, body, .wrapper {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: lightblue; }
+
+#backimg {
+  background-color: black;
+  position: fixed;
+  min-height: 100%;
+  width: 100%;
+  background-image: url("../images/img1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 10px 0 0;
+  margin: 0 0; }
+  #backimg .row {
+    vertical-align: middle;
+    height: 100%;
+    padding-top: 40%;
+    padding-bottom: 40%;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
+  #backimg #frontimg {
+    position: fixed;
+    min-height: 100%;
+    width: 100%;
+    background-image: url("../images/img1.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 10px 0 0;
+    margin: 0 0;
+    z-index: 500; }
+  #backimg #queueMsg {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    z-index: 1000;
+    color: white;
+    text-shadow: 0 0 4px black;
+    font-weight: bold; }
+
+.scorePop {
+  size: 3em;
+  text-align: center;
+  padding-top: 45%;
+  z-index: 1000;
+  color: red;
+  font-weight: bold;
+  font-size: 90px; }
+
+.pageWrap {
+  position: fixed;
+  min-height: 100%;
+  width: 100%;
+  background-image: url("../images/img1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 10px 0 0;
+  margin: 0 0;
+  text-align: center; }
+  .pageWrap .button {
+    border-radius: 1em;
+    border: 2px solid black;
+    width: 350px;
+    margin: 0 1% 2%;
+    cursor: pointer;
+    height: 105px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 50px;
+    background-image: url("../images/button.jpg"); }
+    .pageWrap .button a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      font-size: 200%;
+      width: 100%;
+      height: 100%; }
+  .pageWrap .back {
+    position: fixed;
+    bottom: 5px;
+    height: 80px;
+    padding-top: 38px;
+    margin: 10px 1% 10px; }
+  .pageWrap h2 {
+    margin-top: 0;
+    padding-top: 20px; }
+  .pageWrap article {
+    padding: 3px 10px;
+    font-size: 120%;
+    margin: 0 10% 3% 10%;
+    background-color: rgba(255, 255, 255, 0.75);
+    border: 2px solid darkred;
+    border-radius: .5em;
+    word-wrap: true;
+    text-align: left; }
+    .pageWrap article h4 {
+      text-align: center;
+      margin: 10px; }
+    .pageWrap article ol {
+      margin: 0; }
+
+#aboutPage {
+  position: absolute;
+  top: 5px;
+  bottom: 160px;
+  overflow: auto; }
+  #aboutPage #cardLib {
+    height: auto; }
+  #aboutPage .card {
+    float: left;
+    margin: 1vw;
+    width: 23vw;
+    height: 23vw;
+    background-size: 100% 100%; }
+
+#loginPage {
+  margin-left: calc(50% - 200px);
+  max-width: 400px; }
+
+.profile img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px; }
+
+#game {
+  width: 100%;
+  height: 100%; }
+  #game .selected {
+    border: 4px solid red; }
+  #game #hand {
+    position: absolute;
+    bottom: 0;
+    left: calc(35% - 180px); }
+  #game .cardContainer {
+    width: 80px;
+    position: relative;
+    float: left; }
+  #game .card {
+    width: 200px;
+    height: 200px;
+    background-size: 100% 100%;
+    border: 1px solid black; }
+  #game .cardContainer:hover {
+    z-index: 1000; }
+  #game #battlefield {
+    background-image: url("../images/battle2.png");
+    background-position: center;
+    height: 100%;
+    width: 70%;
+    float: left;
+    padding: .5%; }
+    #game #battlefield #highlighted {
+      position: absolute;
+      top: calc(50% - 100px);
+      right: 30%; }
+    #game #battlefield #xVal {
+      text-align: center;
+      padding: 1% 0;
+      font-size: 150%; }
+  #game #sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    background-image: url("../images/side.jpg");
+    background-size: cover;
+    float: right;
+    border-left: 1px solid black;
+    border-top: none;
+    border-right: none;
+    border-bottom: none; }
+    #game #sidebar .player {
+      position: absolute;
+      right: 1%;
+      width: 17vw;
+      max-width: 150px;
+      color: black;
+      font-size: 120%;
+      text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; }
+      #game #sidebar .player img {
+        border-radius: 50%;
+        width: 17vw;
+        height: 17vw;
+        max-height: 150px;
+        max-width: 150px; }
+    #game #sidebar #opponent {
+      top: 1%; }
+    #game #sidebar #you {
+      bottom: 1%; }
+  #game #times {
+    position: absolute;
+    top: calc(50% - 5vw);
+    right: 1%;
+    width: 13vw;
+    height: 10vw;
+    background-image: url("../images/plate.png");
+    background-size: 100% 100%;
+    font-size: 2em;
+    color: white;
+    text-align: center;
+    font-size: 4vw;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
+  @media only screen and (max-width: 600px) {
+    #game #battlefield {
+      height: 70%;
+      width: 100%; }
+      #game #battlefield #highlighted {
+        right: 1%; }
+    #game #sidebar {
+      top: 70%;
+      background-image: url("../images/board.jpg");
+      height: 30%;
+      width: 100%;
+      border-top: 1px solid black;
+      border-left: none;
+      border-right: none;
+      border-bottom: none; }
+      #game #sidebar .player {
+        width: 25vw; }
+        #game #sidebar .player img {
+          height: 19vw;
+          width: 19vw; }
+      #game #sidebar #opponent {
+        right: 1%; }
+      #game #sidebar #you {
+        left: 1%; }
+    #game #times {
+      top: calc(50% - 40px);
+      right: calc(50% - 50px);
+      width: 100px;
+      height: 80px;
+      font-size: 2em; }
+    #game #hand {
+      bottom: 30%;
+      left: calc(50% - 135px); }
+    #game .cardContainer {
+      width: 60px; }
+    #game .card {
+      height: 150px;
+      width: 150px; } }
+  #game #yourTurn {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center; }
+  #game #gameEnd {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-size: 18vw;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.6); }
+    #game #gameEnd a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: red; }
+    #game #gameEnd div {
+      position: relative;
+      float: left;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
