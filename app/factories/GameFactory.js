@@ -15,9 +15,12 @@ app.factory("GameFactory", function($q, $http, FBCreds, CardFactory) {
     };
 
     const getOpponent = id => {
-        $http.get(`${FBCreds.databaseURL}/profiles/${id}.json`)
-        .then( response => {
-            opponent = response.data;
+        return $q((resolve, reject) => {
+            $http.get(`${FBCreds.databaseURL}/profiles/${id}.json`)
+            .then( response => {
+                opponent = response.data;
+                resolve(response);
+            });
         });
     };
 

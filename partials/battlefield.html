@@ -1,10 +1,13 @@
 <div id="game">
     <div id="battlefield">
         <div id="played" class="btn-group" role="group">
-            <div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/images/'+ card.name +'1.png)'}" class="playedCards" ng-repeat="card in game.playedCards track by $index" ng-click="highlightCard(card)">       
-            <div class="scorePop">
-                {{card.x}}
-            </div></div>
+            <div ng-repeat="card in game.playedCards track by $index" class="cardContainer">
+                <div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/images/'+ card.name +'1.png)'}" class="playedCards" ng-click="highlightCard(card)">       
+                    <div class="scorePop">
+                        {{card.x}}
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="hand" class="btn-group" role="group"> 
             <div class="cardContainer" ng-repeat="card in yourHand track by $index"><div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/images/'+ card.name +'1.png)'}" ng-click="selectCard(card)"></div>
@@ -12,14 +15,19 @@
         </div>
     </div>
 <div id="sidebar">
-<button ng-click="playCard(selectedCard)" ng-disabled="game.whoseTurn != uid || !selected || game.winner">Play Card</button><div class="card" ng-show="selectedCard" ng-style="{'background-image':'url(/images/'+ selectedCard.name +'1.png)'}">
+    <div class="player" id="opponent">
+        <img class="userPhoto" src="{{opponent.photo}}">
+    </div>
+    <div class="player" id="you">
+        <img class="userPhoto" src="{{profile.photo}}">
+    </div>
+    <button ng-click="playCard(selectedCard)" ng-disabled="game.whoseTurn != uid || !selected || game.winner">Play Card</button>
+    <div class="card" ng-show="selectedCard" ng-style="{'background-image':'url(/images/'+ selectedCard.name +'1.png)'}"></div>
+    <div id="times">{{oTime.minutes}}:{{oTime.seconds}}<br>{{myTime.minutes}}:{{myTime.seconds}}</div>
+    <div id="scores">Your Score: {{game.score[uid]}} Their Score: {{game.score[opp]}}</div>
+    <div id="xVal">X = {{game.x}}</div>
+    <div id="goals">Your Goal: {{game[uid]}} Their Goal: {{game[opp]}} </div>
 </div>
-<div id="times">{{oTime.minutes}}:{{oTime.seconds}}<br>{{myTime.minutes}}:{{myTime.seconds}}</div>
-<div id="scores">Your Score: {{game.score[uid]}} Their Score: {{game.score[opp]}}</div>
 
-
-<div id="xVal">X = {{game.x}}</div>
-
-<div id="goals">Your Goal: {{game[uid]}} Their Goal: {{game[opp]}} </div>
-</div>
+<div id="gameEnd" ng-show="endMsg.length > 0"><div>{{endMsg}}</div></div>
 </div>

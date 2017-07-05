@@ -66,19 +66,19 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         for(let d in data.hands[uid]) {
             drawCards(data.hands[uid][d]);
         }
+        parseTime();
         if(data.winner) {
             $interval.cancel(timer);
             if($scope.game.winner == uid) {
-                $scope.endMsg = "you won!";
+                $scope.endMsg = "You won!";
                 GameFactory.updateRecords();
             }else {
-                $scope.endMsg = "you lost!";
+                $scope.endMsg = "You lost!";
             }
             return;
         }
         $interval.cancel(timer);
         timer = $interval(clockTick, 1000); 
-        parseTime();
         if(data.times[$scope.opp] <= 0 || data.times[uid] <= 0) {
             timeResult(data.times);
         }
@@ -90,13 +90,17 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
     let parseTime = () => {
         $scope.myTime.minutes = Math.floor($scope.game.times[$scope.uid] / 60);
         $scope.myTime.seconds = $scope.game.times[$scope.uid] % 60;
-        if($scope.myTime.seconds < 10) {
-            $scope.myTime.seconds = "0" + $scope.myTime.seconds;
-        }
         $scope.oTime.minutes = Math.floor($scope.game.times[$scope.opp] / 60);
         $scope.oTime.seconds = $scope.game.times[$scope.opp] % 60;
-        if($scope.oTime.seconds < 10) {
+        if($scope.myTime.minutes < 0){$scope.myTime.minutes = 0;}
+        if($scope.myTime.seconds < 0){$scope.myTime.seconds = 0;}
+        if($scope.oTime.minutes < 0){$scope.oTime.minutes = 0;}
+        if($scope.oTime.seconds < 0){$scope.oTime.seconds = 0;}
+         if($scope.oTime.seconds < 10) {
             $scope.oTime.seconds = "0" + $scope.oTime.seconds;
+        }
+        if($scope.myTime.seconds < 10) {
+            $scope.myTime.seconds = "0" + $scope.myTime.seconds;
         }
     };
 
@@ -109,29 +113,26 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
             x -= Number(cards[i].s);
             x %= CardFactory.max;
             if(x < 0) {x = 0;}
+            cards[i].x = x;
             if(x == $scope.game[$scope.opp]) {
-                $scope.fade();
+                fade(i);
                 $scope.game.score[$scope.opp] += 1;
             } else if(x == $scope.game[uid]) {
-                $scope.fade();
+                fade(i);
                 $scope.game.score[uid] += 1;
-            }
-            cards[i].x = x;
+            }   
         }
         if(x == $scope.game[$scope.opp]) {
-            $scope.fade();
             $scope.game.score[$scope.opp] += 2;
         } else if(x == $scope.game[uid]) {
-            $scope.fade();
             $scope.game.score[uid] += 2;
         }
         $scope.game.x = x;
     };
 
-    $scope.fade = () => {
-        $(".scorePop").fadeIn(0);
-        $(".scorePop").fadeOut(3000);
-        $(".scorePop").css("fontSize", "20px");
+    let fade = index => {
+        $(".scorePop:eq(index)").fadeIn(0);
+        $(".scorePop:eq(index)").fadeOut(5000);
     };
 
     $scope.playCard = (card) => {
@@ -156,8 +157,16 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         for(let people in $scope.game.score) {
             if(people !== uid) { $scope.opp = people;}
         }
-        GameFactory.getProfile({"uid": uid});
-        GameFactory.getOpponent($scope.opp);
+        GameFactory.getStats(uid)
+        .then( profile => {
+            console.log(profile.data);
+            $scope.profile = profile.data;
+        });
+        GameFactory.getOpponent($scope.opp)
+        .then( profile => {
+            $scope.opponent = profile.data;
+            console.log($scope.opponent);
+        });
         gameState($scope.game);
     }); 
 

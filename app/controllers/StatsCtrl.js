@@ -3,7 +3,7 @@
 app.controller('StatsCtrl', function($scope, $location, GameFactory, AuthFactory) {
 
     GameFactory.getStats(AuthFactory.getUser())
-    .then((profile) => {
+    .then( profile => {
         console.log(profile);
         $scope.stats = profile.data;
         if($scope.stats === null) {
