@@ -55,21 +55,23 @@ app.controller('QueueCtrl', function($scope, $interval, $location, $window, Game
     };
 
     let textCycler = $interval(changeText, 1000);
-    let slider = $interval(rotateBackground, 3000);
-
+    let slider = $interval(rotateBackground, 3500);
+    
     $window.onbeforeunload =  $scope.onExit;
     $window.onclose = $scope.onExit;
     
     $scope.$on('$locationChangeSuccess', (event, next, current) => {
         GameFactory.removeFromQueue(AuthFactory.getUser());
+        $interval.cancel(slider);
+        $interval.cancel(textCycler);
     });
 
     $firebaseArray(GameFactory.fbGameDb).$loaded().then(() => {  //looks for new game to be created once queue fills
 		GameFactory.fbGameDb.on('child_added', (x) => {
 	 		let data = x.val();
-            console.log(data);
             if(now < data.index && data[AuthFactory.getUser()]) {
-                console.log(data);
+                 $interval.cancel(slider);
+                $interval.cancel(textCycler);
                 $location.url(`/game/${data.index}`);
             }
 		});

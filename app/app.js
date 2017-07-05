@@ -31,7 +31,7 @@ app.config(function($routeProvider) {
         templateUrl: 'partials/about.html',
         controller: 'AboutCtrl',
         resolve: {isAuth}
-    }).when('/stats', {
+    }).when('/profile', {
         templateUrl: 'partials/stats.html',
         controller: 'StatsCtrl',
         resolve: {isAuth}
