@@ -68,7 +68,7 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         }
         parseTime();
         if(data.whoseTurn == uid) {
-            $("#yourTurn").fadeIn(500);
+            $("#yourTurn").fadeIn(200);
             $interval(() => {$("#yourTurn").fadeOut(1500);}, 500);
         }
         if(data.winner) {
