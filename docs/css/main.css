@@ -147,7 +147,7 @@ html, body, .wrapper {
   #game .cardContainer:hover {
     z-index: 1000; }
   #game #battlefield {
-    background-image: url("../images/battle2.png");
+    background-image: url("../images/battle.png");
     background-position: center;
     height: 100%;
     width: 70%;
