@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Tribeca';
+    src: url("../images/tribeca.regular.ttf");
+}
 
 html, body, .wrapper {
     height: 100%;
@@ -15,7 +19,7 @@ html, body, .wrapper {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-    padding: 10px 0 0;
+    padding: 0 0 0;
     margin: 0 0;
 
     .row {
@@ -34,15 +38,16 @@ html, body, .wrapper {
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
-        padding: 10px 0 0;
+        padding: 0 0 0;
         margin: 0 0;
         z-index: 500;
     }
 
     #queueMsg {
+        font-family: 'Tribeca';
         position: absolute;
         top: 50%;
-        left: 45%;
+        left: 42%;
         z-index: 1000;
         color: white;
         text-shadow: 0 0 4px black;
@@ -70,10 +75,21 @@ html, body, .wrapper {
     padding: 10px 0 0;
     margin: 0 0;
     text-align: center; 
+
+    #gameName {
+        position: absolute;
+        left: 365px;
+        top: 10px;
+        
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
     
     .button {
         border-radius: 1em;
-        border: 2px solid black;
+        background-color: rgba(255, 255, 255, .3);
         width: 350px;
         margin: 0 1% 2%;
         cursor: pointer;
@@ -81,11 +97,11 @@ html, body, .wrapper {
         text-align: center;
         vertical-align: middle;
         padding-top: 50px;
-        background-image: url("../images/button.jpg");
         a {
             display: block;
             text-decoration: none;
-            color: white;
+            color: black;
+            font-family: 'Tribeca';
             font-size: 200%;
             width: 100%;
             height: 100%;
@@ -99,6 +115,7 @@ html, body, .wrapper {
         margin: 10px 1% 10px;
     }
      h2 {
+        font-family: 'Tribeca';
         margin-top: 0;
         padding-top: 20px;
     }
@@ -112,6 +129,7 @@ html, body, .wrapper {
         word-wrap: true;
         text-align: left;
         h4 {
+            font-family: 'Tribeca';
             text-align: center;
             margin: 10px;
         }
@@ -191,6 +209,7 @@ html, body, .wrapper {
             right: 30%;
         }
         #xVal {
+            font-family: 'Tribeca';
             text-align: center;
             padding: 1% 0;
             font-size: 150%;
@@ -247,89 +266,93 @@ html, body, .wrapper {
         font-size: 4vw;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
     }
-    
-    @media only screen and (max-width: 600px) {
-        #battlefield {
-            height: 70%;
-            width: 100%;
-            #highlighted {
-                right: 1%;
-            }
-        }
-        #sidebar {
-            top: 70%;
-            background-image: url("../images/board.jpg");
-            height: 30%;
-            width: 100%;
-            border-top: 1px solid black;
-            border-left: none;
-            border-right: none;
-            border-bottom: none;
-            .player {
-                width: 25vw;
-                img {
-                    height: 19vw;
-                    width: 19vw;
-                }
-            }
-            #opponent {
-                right: 1%;
-            }
-            #you {
-                left: 1%;
-            }
-        }
-        #times {
-            top: calc(50% - 40px);
-            right: calc(50% - 50px);
-            width: 100px;
-            height: 80px;
-            font-size: 2em;
-        }
-        #hand {
-            bottom: 30%;
-            left: calc(50% - 135px);
-        }
-        .cardContainer {
-            width: 60px;
-        }
-        .card {
-            height: 150px;
-            width: 150px;
+}
+@media only screen and (max-width: 600px) {
+    #gameName {
+        img {
+            display: none;
         }
     }
-    #yourTurn {
-        opacity: 0;
-        position: absolute;
-        top: 50%;
+    #battlefield {
+        height: 70%;
         width: 100%;
-        text-align: center;
+        #highlighted {
+            right: 1%;
+        }
     }
-    #gameEnd {
-        position: absolute;
-        top: 0;
-        left: 0;
+    #sidebar {
+        top: 70%;
+        background-image: url("../images/board.jpg");
+        height: 30%;
+        width: 100%;
+        border-top: 1px solid black;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        .player {
+            width: 25vw;
+            img {
+                height: 19vw;
+                width: 19vw;
+            }
+        }
+        #opponent {
+            right: 1%;
+        }
+        #you {
+            left: 1%;
+        }
+    }
+    #times {
+        top: calc(50% - 40px);
+        right: calc(50% - 50px);
+        width: 100px;
+        height: 80px;
+        font-size: 2em;
+    }
+    #hand {
+        bottom: 30%;
+        left: calc(50% - 135px);
+    }
+    .cardContainer {
+        width: 60px;
+    }
+    .card {
+        height: 150px;
+        width: 150px;
+    }
+}
+#yourTurn {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+}
+#gameEnd {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-size: 18vw;
+    text-align: center;
+    background-color: rgba(255, 255, 255, .6);
+
+    a {
+        display: block;
         width: 100%;
         height: 100%;
-        display: block;
-        font-size: 18vw;
-        text-align: center;
-        background-color: rgba(255, 255, 255, .6);
+        text-decoration: none;
+        color: red;
+    }
 
-        a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: red;
-        }
-
-        div {
-            position: relative;
-            float: left;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+    div {
+        position: relative;
+        float: left;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
