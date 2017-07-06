@@ -74,10 +74,10 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
         if(data.winner) {
             $interval.cancel(timer);
             if($scope.game.winner == uid) {
-                $scope.endMsg = "You won!";
+                $scope.endMsg = "Victory!";
                 GameFactory.updateRecords();
             }else {
-                $scope.endMsg = "You lost!";
+                $scope.endMsg = "Defeat...";
             }
             return;
         }
