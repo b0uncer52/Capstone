@@ -136,19 +136,21 @@ app.controller('GameCtrl', function($scope, $location, $interval, $routeParams, 
 
 
     $scope.playCard = (card) => {
-        $scope.selectedCard = null;
-        $scope.selected = false;
-        if($scope.game.playedCards === undefined) {
-            $scope.game.playedCards = [];
+        if($scope.game.whoseTurn == uid){ 
+            $scope.selectedCard = null;
+            $scope.selected = false;
+            if($scope.game.playedCards === undefined) {
+                $scope.game.playedCards = [];
+            }
+            $scope.game.playedCards.push(card);
+            runTheNumbers();
+            $scope.game.whoseTurn = $scope.opp;
+            removeFromHand(card);
+            let newCard = Math.floor(Math.random() * CardFactory.deckSize);
+            $scope.game.hands[uid].push(newCard);
+            drawCards(newCard);
+            GameFactory.updateGame($scope.game);
         }
-        $scope.game.playedCards.push(card);
-        runTheNumbers();
-        $scope.game.whoseTurn = $scope.opp;
-        removeFromHand(card);
-        let newCard = Math.floor(Math.random() * CardFactory.deckSize);
-        $scope.game.hands[uid].push(newCard);
-        drawCards(newCard);
-        GameFactory.updateGame($scope.game);
     };
 
     GameFactory.getGame($routeParams.gameId)
