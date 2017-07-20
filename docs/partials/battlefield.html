@@ -3,16 +3,16 @@
         <div id="xVal">X = {{game.x}}</div>
         <div id="played" class="btn-group" role="group">
             <div ng-repeat="card in game.playedCards track by $index" class="cardContainer">
-                <div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(./images/'+ card.name +'.jpg)'}" class="playedCards" ng-click="highlightCard(card)">       
+                <div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/images/'+ card.name +'.jpg)'}" class="playedCards" ng-click="highlightCard(card)">       
                     <div class="scorePop">
                         {{card.x}}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card" id="highlighted" ng-click="playCard(selectedCard)" ng-disabled="game.whoseTurn != uid || !selected || game.winner" ng-show="selectedCard" ng-style="{'background-image':'url(./images/'+ selectedCard.name +'.jpg)'}"></div>
+        <div class="card" id="highlighted" ng-click="playCard(selectedCard)" ng-disabled="game.whoseTurn != uid || !selected || game.winner" ng-show="selectedCard" ng-style="{'background-image':'url(/images/'+ selectedCard.name +'.jpg)'}"></div>
         <div id="hand" class="btn-group" role="group"> 
-            <div class="cardContainer" ng-repeat="card in yourHand track by $index"><div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/.images/'+ card.name +'.jpg)'}" ng-click="selectCard(card)"></div>
+            <div class="cardContainer" ng-repeat="card in yourHand track by $index"><div ng-class="{selected: selectedCard == card, card: true}" ng-style="{'background-image':'url(/images/'+ card.name +'.jpg)'}" ng-click="selectCard(card)"></div>
             </div>
         </div>
     </div>
